@@ -83,6 +83,8 @@ class OcrRecogniser:
         return sorted_dt_box, sorted_rec_res
 
     def init_model(self):
+        import os
+        os.environ.setdefault("FLAGS_use_mkldnn", "0")
         model_config = PaddleModelConfig(self.hardware_accelerator)
 
         # PaddleOCR 3.x 使用 device 参数替代 use_gpu
@@ -99,6 +101,7 @@ class OcrRecogniser:
             use_textline_orientation=False,
             text_rec_score_thresh=0,
             device=device,
+            enable_mkldnn=False,  # avoid Paddle 3.3.x OneDNN/PIR crash
         )
         if model_config.DET_MODEL_NAME:
             kwargs['text_detection_model_name'] = model_config.DET_MODEL_NAME

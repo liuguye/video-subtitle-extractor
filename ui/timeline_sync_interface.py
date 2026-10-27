@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt, Signal
 from PySide6.QtWidgets import QWidget, QFileDialog, QHBoxLayout, QVBoxLayout, QSizePolicy
 from qfluentwidgets import (PushButton, ConfigValidator, ConfigItem, PlainTextEdit,
                           FluentIcon, CardWidget, SettingCardGroup, PushSettingCard, InfoBar)
-from backend.config import tr
+from backend.config import tr, BASE_DIR
 from backend.tools.python_runner import AsyncPythonRunner
 from ui.icon.my_fluent_icon import MyFluentIcon
 
@@ -164,7 +164,7 @@ class TimelineSyncInterface(QWidget):
         if not self.is_selected_file_exists(tr["TimelineSync"]["DestinationVideoTitle"], self.option.destination_video.value):
             return
 
-        self.python_runner.start("sushi", cwd="./backend/", args=[
+        self.python_runner.start("sushi", cwd=BASE_DIR, args=[
             '--src', self.option.source_video.value,
             '--dst', self.option.destination_video.value,
             '--script', self.option.source_subtitle.value,
